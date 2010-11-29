@@ -6,7 +6,7 @@ use parent qw(Exporter Digest::base);
 
 use MIME::Base64 ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 $VERSION = eval $VERSION;
 
 eval {
@@ -24,33 +24,6 @@ our @EXPORT_OK = qw(
     bmw_384 bmw_384_hex bmw_384_base64
     bmw_512 bmw_512_hex bmw_512_base64
 );
-
-# TODO: convert to C.
-sub bmw_224_hex  { unpack 'H*', bmw_224(@_) }
-sub bmw_256_hex  { unpack 'H*', bmw_256(@_) }
-sub bmw_384_hex  { unpack 'H*', bmw_384(@_) }
-sub bmw_512_hex  { unpack 'H*', bmw_512(@_) }
-
-sub bmw_224_base64 {
-    my $b64 = MIME::Base64::encode(bmw_224(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub bmw_256_base64 {
-    my $b64 = MIME::Base64::encode(bmw_256(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub bmw_384_base64 {
-    my $b64 = MIME::Base64::encode(bmw_384(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub bmw_512_base64 {
-    my $b64 = MIME::Base64::encode(bmw_512(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
 
 sub add_bits {
     my ($self, $data, $bits) = @_;
@@ -75,8 +48,8 @@ Digest::BMW - Perl interface to the Blue Midnight Wish digest algorithm
     use Digest::BMW qw(bmw_256 bmw_256_hex bmw_256_base64);
 
     $digest = bmw_256($data);
-    $digest = bmw_hex_256($data);
-    $digest = bmw_base64_256($data);
+    $digest = bmw_256_hex($data);
+    $digest = bmw_256_base64($data);
 
     # Object-oriented interface
     use Digest::BMW;
@@ -157,6 +130,8 @@ Returns the algorithm used by the object.
 =head1 SEE ALSO
 
 L<Digest>
+
+L<Task::Digest>
 
 L<http://www.q2s.ntnu.no/sha3_nist_competition/>
 
